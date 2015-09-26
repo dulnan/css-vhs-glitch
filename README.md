@@ -1,5 +1,8 @@
 # CSS3 VHS Glitch Effect
 **[The Demo](http://dulnan.net/vhs)**
+
+![Alt text](vhs-glitch.gif?raw=true)
+
 Only works with Chrome. Oh and you need a fast machine.
 Using CSS filters and animations, no JavaScript.
 
