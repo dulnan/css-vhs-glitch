@@ -1,0 +1,223 @@
+@import 'compass';
+
+$supported-browsers: chrome;
+
+/*
+@font-face {
+    font-family: 'vcr';
+    src: url('assets/fonts/vcr.eot');
+    src: url('assets/fonts/vcr.eot?#iefix') format('embedded-opentype'),
+         url('assets/fonts/vcr.woff2') format('woff2'),
+         url('assets/fonts/vcr.woff') format('woff'),
+         url('assets/fonts/vcr.ttf') format('truetype'),
+         url('assets/fonts/vcr.svg#vcr_osd_monoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background: black;
+    color: white;
+    font-family: "vcr";
+    font-size: 20px;
+    text-transform: uppercase;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/*
+    ============================================================
+    Body
+    ============================================================
+*/
+
+@include keyframes(vhs) {
+    0% {
+        @include filter(grayscale(0.9) hue-rotate(20deg));
+        opacity: 0.9;
+    }
+
+    100% {
+        @include filter(grayscale(0.7) hue-rotate(-10deg));
+        opacity: 1;
+    }
+}
+
+
+body {
+    overflow: hidden;
+    @include animation(vhs 0.9489s cubic-bezier(.88,.9,.96,.15) infinite alternate);
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        box-shadow: inset 0 0 10px #000000;
+    }
+}
+
+
+
+.container {
+    transform: scale(2.1);
+    height: 100vh;
+    width: 100vw;
+}
+
+/*
+    ============================================================
+    VCR Text
+    ============================================================
+*/
+
+/*
+
+@include keyframes(vcr-animation) {
+    0% {
+        transform: translateY(-0.2vh);
+    }
+    20% {
+        transform: translateY(0.4vh);
+    }
+    30% {
+        transform: translateY(0.5vh);
+    }
+    70% {
+        transform: translateY(-0.3vh);
+    }
+}
+
+$vcr-text-stroke: 0.08em;
+h1 {
+    font-size: 1em;
+    position: absolute;
+    bottom: 0;
+    margin: 0 1em 1em;
+    letter-spacing: 0.1em;
+    line-height: 1.2em;
+    text-align: center;
+    text-shadow:
+    $vcr-text-stroke 0 0 black,
+    (-$vcr-text-stroke) 0 0 black,
+    0 $vcr-text-stroke 0 black,
+    0 (-$vcr-text-stroke) 0 black,
+    $vcr-text-stroke $vcr-text-stroke black,
+    (-$vcr-text-stroke) (-$vcr-text-stroke) 0 black,
+    $vcr-text-stroke (-$vcr-text-stroke) 0 black,
+    (-$vcr-text-stroke) $vcr-text-stroke 0 black;
+    @include animation(vcr-animation 0.4s linear infinite);
+    z-index: 200;
+}
+
+*/
+
+/*
+    ============================================================
+    TV Lines
+    ============================================================
+*/
+
+.canvas,i {
+    width: 100%;
+    display: block;
+    margin: 0;
+}
+
+.canvas {
+    font-size: 4vw;
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    top: 25vh;
+    left: 25vw;
+}
+
+.canvas-background,i {
+    //background-image: url("http://api.ning.com/files/DGjgPH8*8vneBCValromt2QmIuzX2mvoN3ebveeikO7kgX083jJsTNM9QKVQkyRUxOBjKMQwJ9aftADfCPIZFYO8KdApPxtE/95696_rainbows_rainbow.jpg");
+    background-image: url("http://fast.swide.com/wp-content/uploads/New-York-Fashion-Week-2013.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.canvas-main {
+    @include filter(blur(2px) hue-rotate(10deg));
+    z-index: 50;
+}
+
+.canvas-background {
+    opacity: 1;
+    z-index: 10;
+    @include filter(blur(1px));
+    @include animation(scan 1.4s ease-in-out infinite alternate);
+}
+
+
+@include keyframes(noise) {
+    0% {
+        background-position: 0px 0px;
+    }
+    100% {
+        background-position: 0px -1123px;
+    }
+}
+
+.canvas-noise {
+    background: url("assets/img/noise.png");
+    z-index: 100;
+    @include animation(noise 2s linear infinite alternate);
+    opacity: 0.05;
+    @include transform(scale(2.2));
+}
+
+@include keyframes(scan) {
+    0% {
+        @include transform(translateX(0em));
+    }
+    6% {
+        @include transform(translateX(-0.2em));
+    }
+}
+
+i {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+        
+    @include animation(scan 1.4s cubic-bezier(.1,.78,.96,.12) infinite);
+
+    @for $i from 0 through 200 {
+        &:nth-child(#{$i}) {
+            $clip-percentage: percentage($i/200);
+            $wow: $i - 1;
+            $clip-percentage-1: percentage($wow/200);
+            -webkit-clip-path: polygon(0% $clip-percentage-1, 100% $clip-percentage-1, 100% $clip-percentage, 0% $clip-percentage);
+            @if $i < 182 {
+                @include animation-delay(#{($i)*9}ms);
+            } @else {
+                @include animation-delay(-#{($i*random())*10}ms);
+                left: #{(sin(random()/10))}em;
+            }
+        }
+    }
+
+    &:nth-child(odd) {
+        @include animation-delay(2.4762s);
+    }
+    
+    &:nth-child(n+178) {
+        @include animation-duration(0.2s);
+    }
+    
+}
+
